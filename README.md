@@ -20,10 +20,10 @@
 - [Acknowledgments](#acknowledgments)
 
 ## Introduction
-This repository hosts a robust mobile test automation framework built with **Robot Framework** and **Appium**. It is designed for efficient and reliable automated testing of mobile applications, demonstrated here with the "MinimalToDo" application. The framework is structured for scalability and ease of maintenance, allowing for quick adaptation to various mobile testing scenarios.
+This repository hosts a robust mobile test automation framework built with **Robot Framework** and **Appium**. It is designed for efficient and reliable automated testing of Android applications, demonstrated here with the "MinimalToDo" application. The framework is structured for scalability and ease of maintenance, allowing for quick adaptation to various mobile testing scenarios.
 
 ## Features
-- **Cross-Platform Mobile Testing**: Leverages Appium for automating iOS and Android applications.
+- **Android Mobile Testing**: Leverages Appium for automating Android applications.
 - **Keyword-Driven Testing**: Utilizes Robot Framework for clear, readable, and maintainable test scripts.
 - **Modular Design**: Separates test cases, page objects, and resources for better organization.
 - **Data-Driven Capabilities**: Supports external data sources for flexible test execution.
@@ -77,7 +77,7 @@ To execute the test suite:
 
 1.  **Using the provided script (Windows):**
     ```bash
-    .un.bat
+    run.bat
     ```
     This will run all the test cases and open the report automatically.
 2.  **Directly with Robot Framework:**
