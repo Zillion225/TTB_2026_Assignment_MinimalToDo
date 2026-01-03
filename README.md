@@ -1,5 +1,10 @@
 # Mobile Test Automation Framework (Robot Framework & Appium)
 
+![Robot Framework](https://img.shields.io/badge/Robot%20Framework-7.0-blue.svg)
+![Appium](https://img.shields.io/badge/Appium-2.0-green.svg)
+![Python](https://img.shields.io/badge/Python-3.9+-yellow.svg)
+![MIT License](https://img.shields.io/badge/License-MIT-red.svg)
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
@@ -10,12 +15,12 @@
 - [Configuration](#configuration)
 - [Running Tests](#running-tests)
 - [Test Reporting](#test-reporting)
-- [Example Test Case (MinimalToDo)](#example-test-case-minimaltodo)
+- [Test Cases](#test-cases)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 
 ## Introduction
-This repository hosts a robust mobile test automation framework built with **Robot Framework** and **Appium**. It is designed to facilitate efficient and reliable automated testing of mobile applications, exemplified here by the "MinimalToDo" application. The framework is structured for scalability and ease of maintenance, allowing for quick adaptation to various mobile testing scenarios.
+This repository hosts a robust mobile test automation framework built with **Robot Framework** and **Appium**. It is designed for efficient and reliable automated testing of mobile applications, demonstrated here with the "MinimalToDo" application. The framework is structured for scalability and ease of maintenance, allowing for quick adaptation to various mobile testing scenarios.
 
 ## Features
 - **Cross-Platform Mobile Testing**: Leverages Appium for automating iOS and Android applications.
@@ -72,8 +77,9 @@ To execute the test suite:
 
 1.  **Using the provided script (Windows):**
     ```bash
-    .\run.bat
+    .un.bat
     ```
+    This will run all the test cases and open the report automatically.
 2.  **Directly with Robot Framework:**
     ```bash
     robot -d results Tests/
@@ -87,16 +93,29 @@ Upon completion, detailed test reports will be generated in the `results/` direc
 - `output.xml`: Machine-readable test results.
 - `appium-screenrecord-*.mp4`: Video recordings of test execution (if configured).
 
-## Example Test Case (MinimalToDo)
+## Test Cases
 The `TSN_001_MinimalToDo.robot` test suite, located in the `Tests/` directory, provides comprehensive examples of mobile test automation for the MinimalToDo application. It includes the following key scenarios:
 
--   **TS-001: Add Edit Remove ToDo Items**: Validates the core CRUD operations for ToDo items, including:
+-   **TS-001: Add, Edit, and Remove ToDo Items**: Validates the core CRUD operations for ToDo items, including:
     -   Adding new ToDo items.
     -   Editing existing ToDo item titles.
     -   Removing ToDo items and verifying their absence.
 -   **TS-002: Test Undo Feature After Removing ToDo Item**: Focuses on the application's undo functionality, specifically after an item removal.
--   **TS-003: Test About And Navigation Back**: Verifies navigation to the "About" page and the "Night Mode" toggle functionality within the application settings.
--   **TC-007: Remind Me Feature**: (Note: This test case is currently skipped due to identified technical limitations related to Espresso PickerActions.)
+-   **TS-003: Test About and Navigation**: Verifies navigation to the "About" page and the "Night Mode" toggle functionality within the application settings.
+-   **TS-004: Add ToDo Item With Reminder**: Validates the functionality of adding, editing, and removing ToDo items that include reminders, as well as handling invalid reminder times.
+
+## Technical Challenges and Solutions
+### Automating the Espresso Date/Time Picker with Image Recognition
+
+A significant technical challenge in this project was automating the native Android Date/Time Picker. The picker is implemented using **Espresso**, but the test environment encountered issues that prevented direct interaction with Espresso elements.
+
+To overcome this limitation, we implemented a workaround using **image recognition** with the **EasyOCR** library. This approach bypasses the need for direct element interaction and instead does the following:
+
+1.  **Capture a Screenshot**: When the date/time picker is visible, a screenshot of the screen is taken.
+2.  **Perform OCR**: EasyOCR processes the screenshot to recognize and extract the text and its coordinates on the screen.
+3.  **Identify and Tap**: Based on the OCR results, the framework can identify the coordinates of the desired date or time and then programmatically tap on that specific location.
+
+This image recognition method provides a robust and reliable way to automate the Espresso Date/Time Picker without depending on a functional Espresso driver, ensuring that the tests can run successfully in the given environment.
 
 ## License
 This project is licensed under the MIT License. Refer to the `LICENSE` file for full details.

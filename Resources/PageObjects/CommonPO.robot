@@ -53,6 +53,7 @@ Check And Allow Permission
     ${is_permission_present}=    Run Keyword And Return Status    Wait Until Element Is Visible    ${common_locator['android_permission']['permission_message']}    timeout=${timeout}
     IF    ${is_permission_present}
         Click Element    ${common_locator['android_permission']['btn_allow']}
+        Sleep    ${web_settings['brief_timeout']}
     END
     # If the permission pop-up appears again, handle it
     ${is_permission_present_2nd}=    Run Keyword And Return Status    Wait Until Element Is Visible    ${common_locator['android_permission']['permission_message']}    timeout=${timeout}
@@ -60,7 +61,9 @@ Check And Allow Permission
         Press Key Code    187
         Sleep    ${web_settings['brief_timeout']}
         Press Key Code    187
+        Sleep    ${web_settings['brief_timeout']}
         Click Element    ${common_locator['android_permission']['btn_allow']}
+        Sleep    ${web_settings['brief_timeout']}
     END
 
 Get text attribute from child
