@@ -14,41 +14,45 @@ Test Teardown       MinimalToDoPO.Test stop
 *** Variables ***
 # Define constants for the test
 ${CAPABILITY_JSON_FILE}     Resources/Capabilities.json    # Path to JSON file containing capabilities
-${SCREENSHOT_PATH}    ${CURDIR}/full_screen.png
+${NIGHTMODE_SCREENSHOT_PATH}    ${CURDIR}/nightmode_full_screen.png
 
 *** Test Cases ***
-TC-001: Add ToDo Item
-    [Documentation]    Test Case to add ToDo items to the Minimal ToDo mobile application.
-    [Tags]    MinimalToDo    Smoke    Regression    TC-001
-    ${test_data_list}   Set Variable    ${test_data_001['TC001']['item_list']}
-    FOR    ${item}    IN    @{test_data_list}
+TS-001: Add Edit Remove ToDo Items _ TC-001 TC-002 TC-004
+    [Documentation]    Test Suite to validate adding, editing, removing, and undoing ToDo items in the Minimal ToDo mobile application.
+    ...    TC-001: Add ToDo Item
+    ...    TC-002: Add ToDo Item And Remove Item
+    ...    TC-004: Edit ToDo Item Title
+    [Tags]    MinimalToDo    Regression    TS-001   TC-001    TC-002    TC-004
+    ${original_item_list}   Set Variable    ${test_data_001['TS-001']['original_item']}
+    ${edited_item_list}     Set Variable    ${test_data_001['TS-001']['edited_item']}
+    # First, add the original items
+    FOR    ${item}    IN    @{original_item_list}
         MinimalToDo_Feature.Perform Add ToDo Item    ${item['item_title']}
     END
     Log  Passed Test: TC-001
-
-TC-002: Add ToDo Item And Remove Item
-    [Documentation]    Test Case to add and then remove ToDo items from the Minimal ToDo mobile application.
-    [Tags]    MinimalToDo    Regression    TC-002
-    ${test_data_list}   Set Variable    ${test_data_001['TC002']['item_list']}
-    # First, add the items
-    FOR    ${item}    IN    @{test_data_list}
-        MinimalToDo_Feature.Perform Add ToDo Item    ${item['item_title']}
+    # Now edit each item to the new title
+    ${original_length}=    Get Length    ${original_item_list}
+    FOR    ${index}    IN RANGE    0    ${original_length}
+        ${original_title}=    Set Variable    ${original_item_list[${index}]['item_title']}
+        ${new_title}=         Set Variable    ${edited_item_list[${index}]['item_title']}
+        MinimalToDo_Feature.Perform Edit ToDo Item Title    ${original_title}    ${new_title}
     END
-    # Now remove the added items and verify they are no longer present
-    FOR    ${item}    IN    @{test_data_list}
+    Log  Passed Test: TC-004
+    # Remove the edited items and verify they are no longer present
+    FOR    ${item}    IN    @{edited_item_list}
         MinimalToDoPO.Remove ToDo Item    ${item['item_title']}
     END
     # Verify items have been removed
-    FOR    ${item}    IN    @{test_data_list}
+    FOR    ${item}    IN    @{edited_item_list}
         MinimalToDoPO.Verify ToDo Item Not Present  ${item['item_title']}
     END
     Log  Passed Test: TC-002
 
-TC-003: Test Undo Feature After Removing ToDo Item
+TS-002: Test Undo Feature After Removing ToDo Item _ TC-003
     [Documentation]   Test Case to add ToDo items, remove them, and then undo the removal in the Minimal ToDo mobile application.
-    [Tags]    MinimalToDo    Regression    TC-003
-    ${test_data_list}   Set Variable    ${test_data_001['TC003']['item_list']}
-    ${test_data_after_undo_list}   Set Variable    ${test_data_001['TC003']['expect_item_list_after_undo']}
+    [Tags]    MinimalToDo    Regression    TS-002   TC-003
+    ${test_data_list}   Set Variable    ${test_data_001['TS-002']['item_list']}
+    ${test_data_after_undo_list}   Set Variable    ${test_data_001['TS-002']['expect_item_list_after_undo']}
     # First, add the items
     FOR    ${item}    IN    @{test_data_list}
         MinimalToDo_Feature.Perform Add ToDo Item    ${item['item_title']}
@@ -63,27 +67,13 @@ TC-003: Test Undo Feature After Removing ToDo Item
     END
     Log  Passed Test: TC-003
 
-TC-004: Edit ToDo Item Title
-    [Documentation]    Test Case to add a ToDo item and then edit its title in the Minimal ToDo mobile application.
-    [Tags]    MinimalToDo    Regression    TC-004
-    ${original_item_list}   Set Variable    ${test_data_001['TC004']['original_item']}
-    ${edited_item_list}     Set Variable    ${test_data_001['TC004']['edited_item']}
-    # First, add the original items
-    FOR    ${item}    IN    @{original_item_list}
-        MinimalToDo_Feature.Perform Add ToDo Item    ${item['item_title']}
-    END
-    # Now edit each item to the new title
-    ${original_length}=    Get Length    ${original_item_list}
-    FOR    ${index}    IN RANGE    0    ${original_length}
-        ${original_title}=    Set Variable    ${original_item_list[${index}]['item_title']}
-        ${new_title}=         Set Variable    ${edited_item_list[${index}]['item_title']}
-        MinimalToDo_Feature.Perform Edit ToDo Item Title    ${original_title}    ${new_title}
-    END
-    Log  Passed Test: TC-004
-
-TC-005: Test About And Navigation Back
-    [Documentation]    Test Case to verify the About page and navigation back functionality in the Minimal ToDo mobile application.
-    [Tags]    MinimalToDo    Regression    TC-005
+TS-003: Test About And Navigation Back _ TC-005 TC-006
+    [Documentation]    Test Case to verify About page navigation and Settings Night Mode toggle in the Minimal ToDo mobile application.
+    ...    TC-005: Verify About Page Navigation
+    ...    TC-006: Test Settings Night Mode Toggle
+    [Tags]    MinimalToDo    Regression    TS-003    TC-005   TC-006
+    ${expect_data_dict}   Set Variable    ${test_data_001['TS-003']['expect_data']}
+    # Verify About Page Navigation
     Wait Until Element Is Visible   ${common_locator['lbl_empty_todo_items_text']}    timeout=${web_settings['long_timeout']}    error=Main page did not load properly.
     Page Should Contain Element    ${common_locator['lbl_empty_todo_items_text']}  
     MinimalToDoPO.Click Open About Menu
@@ -93,24 +83,22 @@ TC-005: Test About And Navigation Back
     Wait Until Element Is Visible   ${common_locator['lbl_empty_todo_items_text']}    timeout=${web_settings['long_timeout']}    error=Main page did not load properly.
     Page Should Contain Element    ${common_locator['lbl_empty_todo_items_text']}
     Log  Passed Test: TC-005
-
-TC-006: Test Settings Night Mode Toggle
-    [Tags]    MinimalToDo    Regression    TC-006
+    # Verify Settings Night Mode Toggle
     MinimalToDoPO.Click Open Settings Menu
     # Check initial state is 'off' and screen is light mode
     ${description_text}=    MinimalToDoSettingPO.Check Night Mode Description
     # Verify description indicates Night Mode is off
-    Should Contain  ${description_text}  off  msg=Night Mode Description Text does not indicate 'off' state.
+    Should Contain  ${description_text}  ${expect_data_dict['night_mode_off_text']}  msg=Expected Night Mode Description Text to indicate '${expect_data_dict['night_mode_off_text']}' state. but got: '${description_text}'
     # Verify initial screen is in light mode
-    ${is_on_dark_mode}  CommonPO.Capture Screenshot And Check Is Image Dark    ${SCREENSHOT_PATH}
+    ${is_on_dark_mode}  CommonPO.Capture Screenshot And Check Is Image Dark    ${NIGHTMODE_SCREENSHOT_PATH}
     Should Be Equal    ${is_on_dark_mode}    ${False}    msg=Initial screen is not in light mode.
     # Toggle Night Mode and verify screen is in dark mode
     MinimalToDoSettingPO.Click Toggle Night Mode
     # Verify description indicates Night Mode is on
     ${description_text}=    MinimalToDoSettingPO.Check Night Mode Description
-    Should Contain  ${description_text}  on  msg=Night Mode Description Text does not indicate 'on' state.
+    Should Contain  ${description_text}  ${expect_data_dict['night_mode_on_text']}  msg=Expected Night Mode Description Text to indicate '${expect_data_dict['night_mode_on_text']}' state. but got: '${description_text}'
     # Verify screen is now in dark mode
-    ${is_dark}=  CommonPO.Capture Screenshot And Check Is Image Dark    ${SCREENSHOT_PATH}
+    ${is_dark}=  CommonPO.Capture Screenshot And Check Is Image Dark    ${NIGHTMODE_SCREENSHOT_PATH}
     Should Be Equal    ${is_dark}    ${True}    msg=Screen is not in dark mode after toggling Night Mode.
     Log  Passed Test: TC-006
 
