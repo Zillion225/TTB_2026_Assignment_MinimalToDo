@@ -1,0 +1,32 @@
+common_locator:
+  lbl_empty_todo_items_text: xpath=//android.widget.TextView[@text="You don't have any todos"]
+  btn_add_todo_item: xpath=//android.widget.ImageView[@resource-id="com.avjindersinghsekhon.minimaltodo:id/addToDoItemFAB"]
+  txt_todo_item_title: xpath=//android.widget.EditText[@resource-id="com.avjindersinghsekhon.minimaltodo:id/userToDoEditText"]
+  btn_todo_submit_item: xpath=//android.widget.ImageView[@resource-id="com.avjindersinghsekhon.minimaltodo:id/makeToDoFloatingActionButton"]
+  rdn_todo_remind_me: xpath=//android.widget.Switch[@resource-id="com.avjindersinghsekhon.minimaltodo:id/toDoHasDateSwitchCompat"]
+  lbl_todo_item: xpath=//android.widget.TextView[@resource-id="com.avjindersinghsekhon.minimaltodo:id/toDoListItemTextview" and @text="{{item_title}}"]
+  btn_todo_select_date: //android.widget.EditText[@resource-id="com.avjindersinghsekhon.minimaltodo:id/newTodoDateEditText"]
+  btn_todo_select_time: //android.widget.EditText[@resource-id="com.avjindersinghsekhon.minimaltodo:id/newTodoTimeEditText"]
+  btn_todo_remove_undo: xpath=//*[@text='UNDO']
+  btn_more_option: xpath=//android.widget.ImageView[@content-desc="More options"]
+  btn_overflow_settings: xpath=//android.widget.TextView[@resource-id="com.avjindersinghsekhon.minimaltodo:id/title" and @text="Settings"]
+  btn_overflow_about: xpath=//android.widget.TextView[@resource-id="com.avjindersinghsekhon.minimaltodo:id/title" and @text="About"]
+  btn_navigation_back: xpath=//android.widget.ImageButton[@content-desc="Navigate up"]
+  about_page:
+    lbl_made_by: xpath=//android.widget.TextView[@text="Made by Avjinder"]
+  setting_page:
+    lbl_night_mode: xpath=//android.widget.TextView[@resource-id="android:id/title"]
+    lbl_night_mode_desc: xpath=//android.widget.TextView[@resource-id="android:id/summary"]
+    ckn_night_mode: xpath=//android.widget.CheckBox[@resource-id="android:id/checkbox"]
+  datepicker:
+    btn_ok: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/ok"]
+    btn_cancel: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/cancel"]
+    btn_year_picker: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/date_picker_year"]
+    pnl_month_view: xpath=//android.widget.ListView/android.view.View[1]
+  timepicker:
+    pnl_timepicker_dialog: xpath=//android.widget.LinearLayout[@resource-id="com.avjindersinghsekhon.minimaltodo:id/time_picker_dialog"]
+    btn_hours_selector: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/hours"]
+    btn_minutes_selector: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/minutes"]
+    btn_am_selector:
+    btn_ok: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/ok"]
+    btn_cancel: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/cancel"]

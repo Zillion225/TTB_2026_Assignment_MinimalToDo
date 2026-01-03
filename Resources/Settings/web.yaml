@@ -1,0 +1,9 @@
+web_settings:
+  brief_timeout: 3s
+  min_timeout: 10s
+  normal_timeout: 30s
+  long_timeout: 60s
+  very_long_timeout: 300s
+  swipe_remove_todo_offset: 400
+  swipe_duration: 400
+  swipe_duration_long: 800
