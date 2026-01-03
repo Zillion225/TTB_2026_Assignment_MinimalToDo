@@ -1,28 +1,25 @@
 test_data_001:
-  # TC001:
-  #   item_list:
-  #   - item_title: "Buy groceries"
-  #   - item_title: "Call mom"
-  #   - item_title: "Finish project report"
-  TC001:
-    item_list:
-    - item_title: "Buy groceries"
-    - item_title: "Call mom"
-    - item_title: "Finish project report"
-  TC002:
-    item_list:
-    - item_title: "Go for a run"
-    - item_title: "Read a book"
-  TC003:
+  TS-001:
+    original_item:
+    - item_title: "Original Item 1"
+    - item_title: "Original Item 2"
+    - item_title: "Original Item 3"
+    edited_item:
+    - item_title: "Edited Item 1"
+    - item_title: "Edited Item ABC"
+    - item_title: "Edited Item XYZ"
+  TS-002:
     item_list:
     - item_title: "Test undo feature 1"
     - item_title: "Test undo feature 2"
     expect_item_list_after_undo:
     - item_title: "Test undo feature 2"
-  TC004:
+  TS-003:
+    expect_data:
+      night_mode_on_text: "on"
+      night_mode_off_text: "off"
+  TS-004:
     original_item:
-    - item_title: "Original Item 1"
-    - item_title: "Original Item 2"
-    edited_item:
-    - item_title: "Edited Item 1"
-    - item_title: "Edited Item ABC"
+    - item_title: "Test Item with Reminder A"
+    - item_title: "Test Item with Reminder B"
+    expect_warning_text: "The date you entered is in the past."

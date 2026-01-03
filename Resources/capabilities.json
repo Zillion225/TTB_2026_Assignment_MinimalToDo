@@ -5,8 +5,5 @@
     "appPackage": "com.avjindersinghsekhon.minimaltodo",
     "appActivity": "com.example.avjindersinghsekhon.toodle.MainActivity",
     "automationName": "UiAutomator2",
-    "skipHiddenApiPolicyError": true,
-    "enableMultiWindows": true,
-    "allowInvisibleElements": true,
-    "ignoreUnimportantViews": false
+    "skipHiddenApiPolicyError": true
 }

@@ -7,3 +7,4 @@ web_settings:
   swipe_remove_todo_offset: 400
   swipe_duration: 400
   swipe_duration_long: 800
+  tap_duration: 400
