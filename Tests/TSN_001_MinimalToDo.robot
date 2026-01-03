@@ -18,10 +18,11 @@ ${NIGHTMODE_SCREENSHOT_PATH}    ${CURDIR}/nightmode_full_screen.png
 
 *** Test Cases ***
 TS-001: Add Edit Remove ToDo Items _ TC-001 TC-002 TC-004
-    [Documentation]    Test Suite to validate adding, editing, removing, and undoing ToDo items in the Minimal ToDo mobile application.
-    ...    TC-001: Add ToDo Item
-    ...    TC-002: Add ToDo Item And Remove Item
-    ...    TC-004: Edit ToDo Item Title
+    [Documentation]    This test suite validates the core CRUD (Create, Read, Update, Delete) operations for ToDo items within the Minimal ToDo mobile application.
+    ...
+    ...    **TC-001: Add ToDo Item**: Verifies successful addition of ToDo items.
+    ...    **TC-004: Edit ToDo Item Title**: Confirms the ability to modify existing ToDo item titles.
+    ...    **TC-002: Remove ToDo Item**: Ensures proper removal of ToDo items.
     [Tags]    MinimalToDo    Regression    TS-001   TC-001    TC-002    TC-004
     ${original_item_list}   Set Variable    ${test_data_001['TS-001']['original_item']}
     ${edited_item_list}     Set Variable    ${test_data_001['TS-001']['edited_item']}
@@ -49,7 +50,9 @@ TS-001: Add Edit Remove ToDo Items _ TC-001 TC-002 TC-004
     Log  Passed Test: TC-002
 
 TS-002: Test Undo Feature After Removing ToDo Item _ TC-003
-    [Documentation]   Test Case to add ToDo items, remove them, and then undo the removal in the Minimal ToDo mobile application.
+    [Documentation]    This test case validates the 'undo' functionality following the removal of ToDo items in the Minimal ToDo mobile application.
+    ...
+    ...    **TC-003: Undo Remove Item**: Verifies that a removed ToDo item can be successfully restored using the undo action.
     [Tags]    MinimalToDo    Regression    TS-002   TC-003
     ${test_data_list}   Set Variable    ${test_data_001['TS-002']['item_list']}
     ${test_data_after_undo_list}   Set Variable    ${test_data_001['TS-002']['expect_item_list_after_undo']}
@@ -68,9 +71,10 @@ TS-002: Test Undo Feature After Removing ToDo Item _ TC-003
     Log  Passed Test: TC-003
 
 TS-003: Test About And Navigation Back _ TC-005 TC-006
-    [Documentation]    Test Case to verify About page navigation and Settings Night Mode toggle in the Minimal ToDo mobile application.
-    ...    TC-005: Verify About Page Navigation
-    ...    TC-006: Test Settings Night Mode Toggle
+    [Documentation]    This test case verifies user interface interactions related to the About page and the application's theme settings.
+    ...
+    ...    **TC-005: Verify About Page Navigation**: Confirms correct navigation to and from the 'About' section.
+    ...    **TC-006: Test Settings Night Mode Toggle**: Validates the functionality of switching between light and dark themes.
     [Tags]    MinimalToDo    Regression    TS-003    TC-005   TC-006
     ${expect_data_dict}   Set Variable    ${test_data_001['TS-003']['expect_data']}
     # Verify About Page Navigation
@@ -103,7 +107,7 @@ TS-003: Test About And Navigation Back _ TC-005 TC-006
     Log  Passed Test: TC-006
 
 TC-007: Remind Me Feature
-    # This test case is skipped due to machine limitations.
-    # This app uses Espresso PickerActions for the DatePicker, but my phone is having trouble with them. 
-    # This is blocking me from completing the automation.
+    [Documentation]    This test case is intended to validate the "Remind Me" feature, specifically its interaction with date and time pickers.
+    ...
+    ...    **Status**: Currently skipped due to technical limitations encountered with Espresso PickerActions on the testing environment, which prevents successful automation of this functionality.
     Log  message="TC-007 is skipped due to machine limitations with Espresso PickerActions."

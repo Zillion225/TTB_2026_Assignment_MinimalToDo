@@ -5,8 +5,8 @@ Library     JSONLibrary    # For reading and handling JSON files
 Library     Collections    # For managing collections like lists and dictionaries
 Library     String    # For string manipulation
 Library     ../../PyUtilitys/PyImageUtility.py
-Variables   ../Resources/Locators/common_locator.yaml
-Variables   ../Resources/Settings/web.yaml
+Variables   ../Locators/common_locator.yaml
+Variables   ../Settings/web.yaml
 
 *** Variables ***
 # Define constants used in the tests

@@ -88,10 +88,15 @@ Upon completion, detailed test reports will be generated in the `results/` direc
 - `appium-screenrecord-*.mp4`: Video recordings of test execution (if configured).
 
 ## Example Test Case (MinimalToDo)
-The included example test suite (`Tests/TS001_MinimalToDo.robot`) demonstrates basic interaction with the MinimalToDo application. It typically involves:
-- Searching for items.
-- Handling pop-ups.
-- Verifying search results and specific data points (e.g., item price).
+The `TSN_001_MinimalToDo.robot` test suite, located in the `Tests/` directory, provides comprehensive examples of mobile test automation for the MinimalToDo application. It includes the following key scenarios:
+
+-   **TS-001: Add Edit Remove ToDo Items**: Validates the core CRUD operations for ToDo items, including:
+    -   Adding new ToDo items.
+    -   Editing existing ToDo item titles.
+    -   Removing ToDo items and verifying their absence.
+-   **TS-002: Test Undo Feature After Removing ToDo Item**: Focuses on the application's undo functionality, specifically after an item removal.
+-   **TS-003: Test About And Navigation Back**: Verifies navigation to the "About" page and the "Night Mode" toggle functionality within the application settings.
+-   **TC-007: Remind Me Feature**: (Note: This test case is currently skipped due to identified technical limitations related to Espresso PickerActions.)
 
 ## License
 This project is licensed under the MIT License. Refer to the `LICENSE` file for full details.

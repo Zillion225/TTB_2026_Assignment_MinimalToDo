@@ -16,7 +16,7 @@ Test setup
     
 Test stop
     [Documentation]    Stops screen recording and closes the application after the test.
-    Stop Screen Recording
+    Run Keyword And Ignore Error    Stop Screen Recording
     Close Application
 
 Click Add Item
