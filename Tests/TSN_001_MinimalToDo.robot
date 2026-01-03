@@ -106,12 +106,49 @@ TS-003: Test About And Navigation Back _ TC-005 TC-006
     Should Be Equal    ${is_dark}    ${True}    msg=Screen is not in dark mode after toggling Night Mode.
     Log  Passed Test: TC-006
 
-# TC-007: Remind Me Feature
-#     [Documentation]    This test case is intended to validate the "Remind Me" feature, specifically its interaction with date and time pickers.
-#     ...
-#     ...    **Status**: Currently skipped due to technical limitations encountered with Espresso PickerActions on the testing environment, which prevents successful automation of this functionality.
-#     Log  message="TC-007 is skipped due to machine limitations with Espresso PickerActions."
-#     MinimalToDoPO.Click Add Item
-#     MinimalToDoPO.Enter ToDo Item Title    Test Item with Reminder
-#     MinimalToDoPO.Click Remind Me
-
+TS-004: Add ToDo Item With Reminder _ TC-007 TC-008 TC-009 TC-010
+    [Documentation]    This test suite validates the functionality of adding, editing, and removing ToDo items that include reminders, as well as handling invalid reminder times.
+    ...
+    ...    **Note on Automation Limitations**: Automating date and time pickers can be unreliable across different mobile platforms and devices. 
+    ...    The current implementation relies on `uiautomator2`, as `espresso` is not supported in the test environment. 
+    ...    As a result, robustly selecting specific dates and times may fail. Advanced techniques, such as image recognition, might be required for complete and stable test coverage of this feature.
+    ...
+    ...    **TC-007: Add ToDo Item with Reminder**: Verifies that a new ToDo item can be successfully created with an associated reminder.
+    ...    **TC-008: Edit ToDo Item Title with Reminder**: Confirms that the title of a ToDo item with a reminder can be successfully modified.
+    ...    **TC-009: Remove ToDo Item with Reminder**: Ensures that a ToDo item with a reminder can be properly deleted.
+    ...    **TC-010: Prevent Setting Past Reminder Time**: Validates that the application correctly prevents users from setting a reminder in the past.
+    ${item_list}    Set Variable    ${test_data_001['TS-004']['original_item']}
+    ${expect_warning_text}    Set Variable    ${test_data_001['TS-004']['expect_warning_text']}
+    # Start Automation for ToDo Item with Reminder.
+    ${future_time}  MinimalToDo_Feature.Get Future Time With Rounding
+    MinimalToDo_Feature.Perform Add ToDo Item With Reminder   ${item_list[0]['item_title']}   ${future_time} 
+    MinimalToDoPO.Verify ToDo With Reminder Added    ${item_list[0]['item_title']}
+    ${remind_time_text}  MinimalToDoPO.Get ToDo With Reminder Time Text    ${item_list[0]['item_title']}
+    ${expected_time_text}=  Evaluate    "${future_time['hour']}:${future_time['minute']} ${future_time['am_pm']}"
+    Should Contain  ${remind_time_text}  ${expected_time_text}  msg=Expected reminder time to contain hour '${expected_time_text}' but got: '${remind_time_text}'
+    Log  Passed Test: TC-007
+    # Edit ToDo Item Title with Reminder
+    ${new_future_time}  MinimalToDo_Feature.Get Future Time With Rounding   offset_string=10 min
+    MinimalToDoPO.Click ToDo Item    ${item_list[0]['item_title']}
+    MinimalToDoPO.Click Select Time On ToDo Reminder
+    DateTimeSelectorPO.Select Time In Time Picker    ${new_future_time['hour']}    ${new_future_time['minute']}     ${new_future_time['am_pm']}
+    MinimalToDoPO.Submit ToDo Item
+    ${remind_time_text}  MinimalToDoPO.Get ToDo With Reminder Time Text    ${item_list[0]['item_title']}
+    ${expected_time_text}=  Evaluate    "${new_future_time['hour']}:${new_future_time['minute']} ${new_future_time['am_pm']}"
+    Should Contain  ${remind_time_text}  ${expected_time_text}  msg=Expected reminder time to contain hour '${expected_time_text}' but got: '${remind_time_text}'
+    Log  Passed Test: TC-008
+    # Remove ToDo Item with Reminder
+    MinimalToDoPO.Remove ToDo Item    ${item_list[0]['item_title']}
+    # Verify item has been removed
+    MinimalToDoPO.Verify ToDo Item Not Present  ${item_list[0]['item_title']}
+    Log  Passed Test: TC-009
+    # Prevent Setting Past Reminder Time
+    ${past_time_reminder}=  MinimalToDo_Feature.Get Future Time With Rounding   offset_string=-10 min
+    MinimalToDoPO.Click Add Item
+    MinimalToDoPO.Enter ToDo Item Title    ${item_list[1]['item_title']}
+    MinimalToDoPO.Click Remind Me
+    MinimalToDoPO.Click Select Time On ToDo Reminder
+    DateTimeSelectorPO.Select Time In Time Picker    ${past_time_reminder['hour']}    ${past_time_reminder['minute']}     ${past_time_reminder['am_pm']}
+    ${warning_text}  MinimalToDoPO.Get Warning Message Text
+    Should Contain  ${warning_text}  ${expect_warning_text}  msg=Expected warning text to contain '${expect_warning_text}' but got: '${warning_text}'
+    Log  Passed Test: TC-010

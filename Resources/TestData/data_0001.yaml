@@ -18,3 +18,8 @@ test_data_001:
     expect_data:
       night_mode_on_text: "on"
       night_mode_off_text: "off"
+  TS-004:
+    original_item:
+    - item_title: "Test Item with Reminder A"
+    - item_title: "Test Item with Reminder B"
+    expect_warning_text: "The date you entered is in the past."

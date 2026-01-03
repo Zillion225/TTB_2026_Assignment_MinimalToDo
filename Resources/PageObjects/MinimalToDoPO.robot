@@ -13,6 +13,7 @@ Test setup
     CommonPO.Launch mobile app    json_path=${capability_json_file_path}
     # Start recording the screen for the test session
     Start Screen Recording
+    Check And Allow Permission
     
 Test stop
     [Documentation]    Stops screen recording and closes the application after the test.
@@ -22,7 +23,7 @@ Test stop
 Click Add Item
     [Documentation]    Clicks the button to add a new ToDo item.
     [Arguments]  ${timeout}=${web_settings['min_timeout']}
-    CommonPO.Click Element  ${common_locator['btn_add_todo_item']}  timeout=${timeout}   error=Add Item button is not visible within '${timeout}'.
+    Click Element From Locator  ${common_locator['btn_add_todo_item']}  timeout=${timeout}   error=Add Item button is not visible within '${timeout}'.
 
 Enter ToDo Item Title
     [Documentation]    Enters the title for the new ToDo item.
@@ -36,12 +37,12 @@ Enter ToDo Item Title
 Click Remind Me
     [Documentation]    Clicks the 'Remind Me' toggle for the ToDo item.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    CommonPO.Click Element  ${common_locator['rdn_todo_remind_me']}  timeout=${timeout}   error=Remind Me option is not visible within '${timeout}'.
+    Click Element From Locator  ${common_locator['rdn_todo_remind_me']}  timeout=${timeout}   error=Remind Me option is not visible within '${timeout}'.
 
 Submit ToDo Item
     [Documentation]    Submits the new ToDo item after entering the title.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    CommonPO.Click Element  ${common_locator['btn_todo_submit_item']}  timeout=${timeout}  error=Submit ToDo Item button is not visible within '${timeout}'.
+    Click Element From Locator  ${common_locator['btn_todo_submit_item']}  timeout=${timeout}  error=Submit ToDo Item button is not visible within '${timeout}'.
 
 Verify ToDo Item Added
     [Documentation]    Verifies that the ToDo item with the specified title has been added
@@ -49,11 +50,24 @@ Verify ToDo Item Added
     ${locator}=    CommonPO.Locator Builder    ${common_locator['lbl_todo_item']}    {{item_title}}    ${item_title}
     Wait Until Element Is Visible   ${locator}    timeout=${timeout}    error=ToDo item with title "${item_title}" was not added.
 
+Verify ToDo With Reminder Added
+    [Documentation]    Verifies that the ToDo item has a reminder set.
+    [Arguments]    ${item_title}    ${timeout}=${web_settings['long_timeout']}
+    ${locator}=    CommonPO.Locator Builder    ${common_locator['lbl_todo_item_remind_datetime']}    {{item_title}}    ${item_title}
+    Wait Until Element Is Visible   ${locator}    timeout=${timeout}    error=ToDo item with title "${item_title}" does not have a reminder set.
+
 Verify ToDo Item Not Present
     [Documentation]    Verifies that the ToDo item with the specified title is not present.
     [Arguments]    ${item_title}    ${timeout}=${web_settings['long_timeout']}
     ${locator}=    CommonPO.Locator Builder    ${common_locator['lbl_todo_item']}    {{item_title}}    ${item_title}
     Wait Until Page Does Not Contain Element   ${locator}    timeout=${timeout}    error=ToDo item with title "${item_title}" is still present on the page.
+
+Click ToDo Item
+    [Documentation]    Clicks the ToDo item with the specified title.
+    [Arguments]    ${item_title}    ${timeout}=${web_settings['long_timeout']}
+    ${locator}=    CommonPO.Locator Builder    ${common_locator['lbl_todo_item']}    {{item_title}}    ${item_title}
+    Wait Until Element Is Visible   ${locator}    timeout=${timeout}    error=ToDo item with title "${item_title}" is not visible for clicking.
+    Click Element    ${locator}
 
 Remove ToDo Item
     [Documentation]    Removes the ToDo item with the specified title.
@@ -65,7 +79,7 @@ Remove ToDo Item
 Click Undo Remove Item
     [Documentation]    Clicks the 'UNDO' button to restore the last removed ToDo item.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    CommonPO.Click Element  ${common_locator['btn_todo_remove_undo']}  timeout=${timeout}   error=UNDO button is not visible within '${timeout}'.
+    Click Element From Locator  ${common_locator['btn_todo_remove_undo']}  timeout=${timeout}   error=UNDO button is not visible within '${timeout}'.
 
 Click Open Settings Menu
     [Documentation]    Clicks the button to open the settings menu.
@@ -88,7 +102,7 @@ Click Open About Menu
 Click Navigate Back
     [Documentation]    Clicks the device back button to navigate back.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    CommonPO.Click Element  ${common_locator['btn_navigation_back']}  timeout=${timeout}   error=Navigation Back button is not visible within '${timeout}'.
+    Click Element From Locator  ${common_locator['btn_navigation_back']}  timeout=${timeout}   error=Navigation Back button is not visible within '${timeout}'.
 
 Click Select Date On ToDo Reminder
     [Documentation]    Clicks the 'Select Date' option for setting a reminder.
@@ -101,3 +115,18 @@ Click Select Time On ToDo Reminder
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
     Wait Until Element Is Visible   ${common_locator['btn_todo_select_time']}    timeout=${timeout}   error=Select Time option is not visible.
     Click Element    ${common_locator['btn_todo_select_time']}
+
+Get Warning Message Text
+    [Documentation]    Retrieves the warning message text displayed in the app.
+    [Arguments]   ${timeout}=${web_settings['min_timeout']}
+    Wait Until Element Is Visible   ${common_locator['lbl_todo_warning_text']}    timeout=${timeout}   error=Warning message is not visible.
+    ${warning_text}=  AppiumLibrary.Get Text    ${common_locator['lbl_todo_warning_text']}
+    RETURN    ${warning_text}
+
+Get ToDo With Reminder Time Text
+    [Documentation]    Retrieves the reminder text for the specified ToDo item.
+    [Arguments]    ${item_title}    ${timeout}=${web_settings['min_timeout']}
+    ${locator}=    CommonPO.Locator Builder    ${common_locator['lbl_todo_item_remind_datetime']}    {{item_title}}    ${item_title}
+    Wait Until Element Is Visible   ${locator}    timeout=${timeout}    error=ToDo item with title "${item_title}" does not have a reminder set.
+    ${reminder_text}=  AppiumLibrary.Get Text    ${locator}
+    RETURN    ${reminder_text}

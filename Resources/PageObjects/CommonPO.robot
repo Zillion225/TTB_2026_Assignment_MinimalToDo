@@ -4,6 +4,7 @@ Library     AppiumLibrary    # For interacting with mobile applications using Ap
 Library     JSONLibrary    # For reading and handling JSON files
 Library     Collections    # For managing collections like lists and dictionaries
 Library     String    # For string manipulation
+Library     DateTime
 Library     ../../PyUtilitys/PyImageUtility.py
 Variables   ../Locators/common_locator.yaml
 Variables   ../Settings/web.yaml
@@ -11,7 +12,7 @@ Variables   ../Settings/web.yaml
 *** Variables ***
 # Define constants used in the tests
 ${APPIUM_URL}       http://127.0.0.1:4723    # URL of the Appium server
-
+${TEXT_REGCONITION_SCREENSHOT_PATH}    ${CURDIR}/text_recognition_full_screen.png
 
 *** Keywords ***
 Launch mobile app
@@ -45,6 +46,15 @@ Locator Builder
     [Arguments]       ${locator}    ${search_for}    ${replace_with}
     ${final_locator}=    Replace String    ${locator}    ${search_for}    ${replace_with}
     RETURN    ${final_locator}
+
+Check And Allow Permission
+    [Documentation]    Checks for Android permission pop-ups and allows the permission if prompted.
+    [Arguments]    ${timeout}=${web_settings['normal_timeout']}
+    ${is_permission_present}=    Run Keyword And Return Status    Wait Until Element Is Visible    ${common_locator['android_permission']['permission_message']}    timeout=${timeout}
+    IF    ${is_permission_present}
+        Click Element    ${common_locator['android_permission']['btn_allow']}
+    END
+
 Get text attribute from child
     [Documentation]    Retrieves the 'text' attribute of a child element located within a parent element.
     [Arguments]
@@ -70,11 +80,33 @@ Get numeric from text
     ${result}=    Convert To Number    item=${cleaned_number_text}    precision=2
     RETURN    ${result}
 
-Click Element
+Click Element From Locator
     [Documentation]    Waits for an element to be visible and clicks on it.
     [Arguments]    ${locator}   ${timeout}=${web_settings['min_timeout']}   ${error}=Element with locator "${locator}" is not visible.
     Wait Until Element Is Visible   ${locator}    timeout=${timeout}   error=${error}
     AppiumLibrary.Click Element    ${locator}
+
+Get Text From Locator
+    [Documentation]    Waits for an element to be visible and retrieves its text.
+    [Arguments]    ${locator}   ${timeout}=${web_settings['min_timeout']}   ${error}=Element with locator "${locator}" is not visible.
+    Wait Until Element Is Visible   ${locator}    timeout=${timeout}   error=${error}
+    ${text}=  AppiumLibrary.Get Text    ${locator}
+    RETURN    ${text}
+
+Click Element With Text Regconition
+    [Documentation]    Clicks an element identified by text recognition using image processing.
+    [Arguments]    ${text}    ${tap_duration}=${web_settings['tap_duration']}
+    # Capture screenshot of the current screen
+    Capture Page Screenshot  ${TEXT_REGCONITION_SCREENSHOT_PATH}
+    # Find positions of the text in the screenshot
+    ${positions}=    PyImageUtility.Find Text Centers    ${TEXT_REGCONITION_SCREENSHOT_PATH}    ${text}
+    # Check if any positions were found
+    ${count}=    Get Length    ${positions}
+    IF    ${count} > 0
+        AppiumLibrary.Tap With Positions    ${tap_duration}    @{positions}
+    ELSE
+        Fail    Could not find text: ${text} within screenshot '${TEXT_REGCONITION_SCREENSHOT_PATH}'.
+    END
 
 Swipe Element Horizontal
     [Documentation]    Performs a horizontal swipe gesture starting from the center of the specified element.
