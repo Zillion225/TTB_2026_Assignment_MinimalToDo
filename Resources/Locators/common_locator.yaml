@@ -27,6 +27,6 @@ common_locator:
     pnl_timepicker_dialog: xpath=//android.widget.LinearLayout[@resource-id="com.avjindersinghsekhon.minimaltodo:id/time_picker_dialog"]
     btn_hours_selector: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/hours"]
     btn_minutes_selector: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/minutes"]
-    btn_am_selector:
+    btn_am_selector: xpath=//android.widget.TextView[@resource-id="com.avjindersinghsekhon.minimaltodo:id/ampm_label"]
     btn_ok: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/ok"]
     btn_cancel: xpath=//android.widget.Button[@resource-id="com.avjindersinghsekhon.minimaltodo:id/cancel"]

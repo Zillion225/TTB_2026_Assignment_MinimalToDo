@@ -106,8 +106,12 @@ TS-003: Test About And Navigation Back _ TC-005 TC-006
     Should Be Equal    ${is_dark}    ${True}    msg=Screen is not in dark mode after toggling Night Mode.
     Log  Passed Test: TC-006
 
-TC-007: Remind Me Feature
-    [Documentation]    This test case is intended to validate the "Remind Me" feature, specifically its interaction with date and time pickers.
-    ...
-    ...    **Status**: Currently skipped due to technical limitations encountered with Espresso PickerActions on the testing environment, which prevents successful automation of this functionality.
-    Log  message="TC-007 is skipped due to machine limitations with Espresso PickerActions."
+# TC-007: Remind Me Feature
+#     [Documentation]    This test case is intended to validate the "Remind Me" feature, specifically its interaction with date and time pickers.
+#     ...
+#     ...    **Status**: Currently skipped due to technical limitations encountered with Espresso PickerActions on the testing environment, which prevents successful automation of this functionality.
+#     Log  message="TC-007 is skipped due to machine limitations with Espresso PickerActions."
+#     MinimalToDoPO.Click Add Item
+#     MinimalToDoPO.Enter ToDo Item Title    Test Item with Reminder
+#     MinimalToDoPO.Click Remind Me
+

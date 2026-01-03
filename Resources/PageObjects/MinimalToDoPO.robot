@@ -22,8 +22,7 @@ Test stop
 Click Add Item
     [Documentation]    Clicks the button to add a new ToDo item.
     [Arguments]  ${timeout}=${web_settings['min_timeout']}
-    Wait Until Element Is Visible   ${common_locator['btn_add_todo_item']}    timeout=${timeout}    error=Add Item button is not visible.
-    Click Element    ${common_locator['btn_add_todo_item']}
+    CommonPO.Click Element  ${common_locator['btn_add_todo_item']}  timeout=${timeout}   error=Add Item button is not visible within '${timeout}'.
 
 Enter ToDo Item Title
     [Documentation]    Enters the title for the new ToDo item.
@@ -37,14 +36,12 @@ Enter ToDo Item Title
 Click Remind Me
     [Documentation]    Clicks the 'Remind Me' toggle for the ToDo item.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    Wait Until Element Is Visible   ${common_locator['rdn_todo_remind_me']}    timeout=${timeout}   error=Remind Me option is not visible.
-    Click Element    ${common_locator['rdn_todo_remind_me']}
+    CommonPO.Click Element  ${common_locator['rdn_todo_remind_me']}  timeout=${timeout}   error=Remind Me option is not visible within '${timeout}'.
 
 Submit ToDo Item
     [Documentation]    Submits the new ToDo item after entering the title.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    Wait Until Element Is Visible   ${common_locator['btn_todo_submit_item']}    timeout=${timeout}  error=Submit ToDo Item button is not visible.
-    Click Element    ${common_locator['btn_todo_submit_item']}
+    CommonPO.Click Element  ${common_locator['btn_todo_submit_item']}  timeout=${timeout}  error=Submit ToDo Item button is not visible within '${timeout}'.
 
 Verify ToDo Item Added
     [Documentation]    Verifies that the ToDo item with the specified title has been added
@@ -68,8 +65,7 @@ Remove ToDo Item
 Click Undo Remove Item
     [Documentation]    Clicks the 'UNDO' button to restore the last removed ToDo item.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    Wait Until Element Is Visible   ${common_locator['btn_todo_remove_undo']}    timeout=${timeout}   error=UNDO button is not visible.
-    Click Element    ${common_locator['btn_todo_remove_undo']}
+    CommonPO.Click Element  ${common_locator['btn_todo_remove_undo']}  timeout=${timeout}   error=UNDO button is not visible within '${timeout}'.
 
 Click Open Settings Menu
     [Documentation]    Clicks the button to open the settings menu.
@@ -92,16 +88,15 @@ Click Open About Menu
 Click Navigate Back
     [Documentation]    Clicks the device back button to navigate back.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
-    Wait Until Element Is Visible   ${common_locator['btn_navigation_back']}    timeout=${timeout}    error=Navigation Back button is not visible.
-    Click Element    ${common_locator['btn_navigation_back']}
+    CommonPO.Click Element  ${common_locator['btn_navigation_back']}  timeout=${timeout}   error=Navigation Back button is not visible within '${timeout}'.
 
-Click Select Date
+Click Select Date On ToDo Reminder
     [Documentation]    Clicks the 'Select Date' option for setting a reminder.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
     Wait Until Element Is Visible   ${common_locator['btn_todo_select_date']}    timeout=${timeout}   error=Select Date option is not visible.
     Click Element    ${common_locator['btn_todo_select_date']}
 
-Click Select Time
+Click Select Time On ToDo Reminder
     [Documentation]    Clicks the 'Select Time' option for setting a reminder.
     [Arguments]   ${timeout}=${web_settings['min_timeout']}
     Wait Until Element Is Visible   ${common_locator['btn_todo_select_time']}    timeout=${timeout}   error=Select Time option is not visible.

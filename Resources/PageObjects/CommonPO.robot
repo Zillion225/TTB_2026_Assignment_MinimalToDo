@@ -70,6 +70,12 @@ Get numeric from text
     ${result}=    Convert To Number    item=${cleaned_number_text}    precision=2
     RETURN    ${result}
 
+Click Element
+    [Documentation]    Waits for an element to be visible and clicks on it.
+    [Arguments]    ${locator}   ${timeout}=${web_settings['min_timeout']}   ${error}=Element with locator "${locator}" is not visible.
+    Wait Until Element Is Visible   ${locator}    timeout=${timeout}   error=${error}
+    AppiumLibrary.Click Element    ${locator}
+
 Swipe Element Horizontal
     [Documentation]    Performs a horizontal swipe gesture starting from the center of the specified element.
     ...
