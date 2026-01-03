@@ -54,6 +54,14 @@ Check And Allow Permission
     IF    ${is_permission_present}
         Click Element    ${common_locator['android_permission']['btn_allow']}
     END
+    # If the permission pop-up appears again, handle it
+    ${is_permission_present_2nd}=    Run Keyword And Return Status    Wait Until Element Is Visible    ${common_locator['android_permission']['permission_message']}    timeout=${timeout}
+    IF    ${is_permission_present_2nd}
+        Press Key Code    187
+        Sleep    ${web_settings['brief_timeout']}
+        Press Key Code    187
+        Click Element    ${common_locator['android_permission']['btn_allow']}
+    END
 
 Get text attribute from child
     [Documentation]    Retrieves the 'text' attribute of a child element located within a parent element.
